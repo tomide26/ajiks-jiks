@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Be My Valentine 💖</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    font-family: 'Courier New', monospace;
+    text-align: center;
+    overflow: hidden;
+    background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
+    background-size: 400% 400%;
+    animation: gradientBG 10s ease infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@keyframes gradientBG {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
+
+.container {
+    max-width: 700px;
+    padding: 20px;
+}
+
+#question {
+    color: white;
+    font-size: 22px;
+    line-height: 1.8;
+    min-height: 220px;
+    white-space: pre-line;
+}
+
+button {
+    padding: 12px 25px;
+    font-size: 18px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    margin: 15px;
+    transition: 0.3s ease;
+    display: none;
+}
+
+#yesBtn {
+    background-color: #00c853;
+    color: white;
+}
+
+#noBtn {
+    background-color: #ff1744;
+    color: white;
+}
+
+#message {
+    display: none;
+    font-size: 28px;
+    color: white;
+    margin-top: 20px;
+}
+
+/* Floating emojis */
+.emoji {
+    position: absolute;
+    font-size: 24px;
+    animation: float 6s linear infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(100vh); opacity: 1; }
+    100% { transform: translateY(-10vh); opacity: 0; }
+}
+
+/* Confetti */
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    top: 0;
+    animation: fall 3s linear forwards;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<audio autoplay loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+</audio>
+
+<div class="container">
+<div id="question"></div>
+
+<button id="yesBtn">Yes 😍</button>
+<button id="noBtn">No 🙈</button>
+
+<div id="message">
+🥹💖 To the woman who makes the world a better place, cheers to our second valentine!  
+<br><br>
+Looking forward to more amazing memories together💕  
+<br><br>
+Valentine starts now 💘✨
+</div>
+</div>
+
+<script>
+const poem = `In the garden of your smile  
+I am safe to grow  
+by the gentle light you sow.  
+You whisper and I listen  
+without a single doubt  
+for in your voice  
+my trust always finds its route.  
+
+Will you be my Valentine?🌹`;
+
+let i = 0;
+const speed = 40;
+const question = document.getElementById("question");
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const message = document.getElementById("message");
+
+function typeWriter() {
+    if (i < poem.length) {
+        question.innerHTML += poem.charAt(i);
+        i++;
+        setTimeout(typeWriter, speed);
+    } else {
+        yesBtn.style.display = "inline-block";
+        noBtn.style.display = "inline-block";
+    }
+}
+
+typeWriter();
+
+let size = 18;
+
+noBtn.addEventListener("click", function() {
+    size += 12;
+    yesBtn.style.fontSize = size + "px";
+    yesBtn.style.padding = (size/2) + "px " + (size) + "px";
+});
+
+yesBtn.addEventListener("click", function() {
+    question.style.display = "none";
+    yesBtn.style.display = "none";
+    noBtn.style.display = "none";
+    message.style.display = "block";
+    launchConfetti();
+});
+
+/* Floating emojis */
+function createEmoji() {
+    const emoji = document.createElement("div");
+    emoji.classList.add("emoji");
+    emoji.innerHTML = ["💖","💕","😍","🌸","💘","🥰","💍"][Math.floor(Math.random()*7)];
+    emoji.style.left = Math.random() * 100 + "vw";
+    emoji.style.animationDuration = (Math.random() * 3 + 3) + "s";
+    document.body.appendChild(emoji);
+
+    setTimeout(() => emoji.remove(), 6000);
+}
+setInterval(createEmoji, 500);
+
+/* Confetti */
+function launchConfetti() {
+    for (let i = 0; i < 150; i++) {
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+        confetti.style.left = Math.random() * 100 + "vw";
+        confetti.style.backgroundColor =
+            ["#ff0a54","#ff477e","#ff85a1","#fbb1bd","#a18cd1","#00c853"]
+            [Math.floor(Math.random()*6)];
+        confetti.style.animationDuration = (Math.random() * 2 + 2) + "s";
+        document.body.appendChild(confetti);
+
+        setTimeout(() => confetti.remove(), 3000);
+    }
+}
+</script>
+
+</body>
+</html>
